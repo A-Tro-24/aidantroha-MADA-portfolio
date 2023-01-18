@@ -4,7 +4,7 @@
     "href": "aboutme.html",
     "title": "About me",
     "section": "",
-    "text": "Hello! I am a second year MPH student at UGA concentrating in Biostatistics. My goal is to work with big data in the healthcare field"
+    "text": "Hello! I am a second year MPH student at UGA concentrating in Biostatistics. My goal is to work with data management systems in hospitals to streamline the process of healthcare data across several platforms.\n\nBackground\nI received my bachelor’s degree in Biology from Georgia College & State University where I focused my studies in Biology Education."
   },
   {
     "objectID": "tidytuesday_exercise.html",
@@ -26,5 +26,12 @@
     "title": "R Coding Exercise",
     "section": "",
     "text": "Placeholder file for the future R coding exercise."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My website and data analysis portfolio",
+    "section": "",
+    "text": "Hello!\nAnd welcome to my website.\n\nFeel free to take a look around and explore!\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nHave fun!"
   }
 ]

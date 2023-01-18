@@ -2,12 +2,14 @@
 title: "My website and data analysis portfolio"
 output: 
   html_document:
-    toc: FALSE
+      toc: FALSE
 ---
 
-# Hello
+# Hello!
 
-### And hello again
+And welcome to my website.
+
+### Feel free to take a look around and explore!
 
 Welcome to **my website** and _data analysis portfolio._ 
 

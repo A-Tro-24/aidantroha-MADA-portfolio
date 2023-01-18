@@ -5,4 +5,7 @@ output:
       toc: FALSE
 ---
 
-Hello! I am a second year MPH student at UGA concentrating in Biostatistics.  My goal is to work with big data in the healthcare field
+Hello! I am a second year MPH student at UGA concentrating in Biostatistics.  My goal is to work with data management systems in hospitals to streamline the process of healthcare data across several platforms.
+
+# Background
+I received my bachelor's degree in Biology from Georgia College & State University where I focused my studies in Biology Education.  
