@@ -5,4 +5,4 @@ output:
       toc: FALSE
 ---
 
-Add some text and a figure describing myself.
+Hello! I am a second year MPH student at UGA concentrating in Biostatistics.  My goal is to work with big data in the healthcare field
