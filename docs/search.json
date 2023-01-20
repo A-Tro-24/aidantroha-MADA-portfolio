@@ -4,7 +4,7 @@
     "href": "aboutme.html",
     "title": "About me",
     "section": "",
-    "text": "Hello! I am a second year MPH student at UGA concentrating in Biostatistics. My goal is to work with data management systems in hospitals to streamline the process of healthcare data across several platforms.\n\n\nBackground\nI received my bachelor’s degree in Biology from Georgia College & State University where I focused my studies in Biology Education. While there, I tutored in a number of STEM subjects including introductory level mathematics, calculus, statistics, biology, chemistry, and physics. I am most interested in learning about how"
+    "text": "Hello! I am a second year MPH student at UGA concentrating in Biostatistics. My goal is to work with data management systems in hospitals to streamline the process of healthcare data across several platforms."
   },
   {
     "objectID": "tidytuesday_exercise.html",
@@ -33,5 +33,19 @@
     "title": "My website and data analysis portfolio",
     "section": "",
     "text": "Hello!\nAnd welcome to my website.\n\nFeel free to take a look around and explore!\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nHave fun!"
+  },
+  {
+    "objectID": "aboutme.html#experience",
+    "href": "aboutme.html#experience",
+    "title": "About me",
+    "section": "Experience",
+    "text": "Experience\nMuch of what I have learned about coding in R was from this website. DataCamp is a free resource for high quality programming practice. I would recommend making an account if you would like foundational knowledge or more practice with R, though DataCamp is not relegated to just R."
+  },
+  {
+    "objectID": "aboutme.html#interests",
+    "href": "aboutme.html#interests",
+    "title": "About me",
+    "section": "Interests",
+    "text": "Interests\nIn my past time, I garden with my family. We endeavor to maintain self-sufficient-style gardening in which we cycle the types of crops we grow to accommodate our own needs each season. In addition, I grow fruit trees like lemons, pomegranates, and apples from seed."
   }
 ]
