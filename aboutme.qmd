@@ -7,5 +7,13 @@ output:
 
 Hello! I am a second year MPH student at UGA concentrating in Biostatistics.  My goal is to work with data management systems in hospitals to streamline the process of healthcare data across several platforms.
 
+![](IMG_0053.jpeg){width=5in, height=5in}
+
 # Background
-I received my bachelor's degree in Biology from Georgia College & State University where I focused my studies in Biology Education.  
+I received my bachelor's degree in Biology from Georgia College & State University where I focused my studies in Biology Education.  While there, I tutored in a number of STEM subjects including introductory level mathematics, calculus, statistics, biology, chemistry, and physics.  I am most interested in learning about how to ensure reproducibility with the code I produce.  
+
+## Experience
+Much of what I have learned about coding in R was from this website: https://www.datacamp.com/. DataCamp is a free resource for high quality programming practice.  I would recommend making an account if you would like foundational knowledge or more practice with R, though DataCamp is not relegated to just R.
+
+## Interests
+In my past time, I garden with my family.  We endeavor to maintain self-sufficient-style gardening in which we cycle the types of crops we grow to accommodate our own needs each season.  In addition, I grow fruit trees like lemons, pomegranates, and apples from seed.
