@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "tidytuesday_exercise.html",
+    "href": "tidytuesday_exercise.html",
+    "title": "Tidy Tuesday Exercise",
+    "section": "",
+    "text": "Placeholder file for the future Tidy Tuesday exercise."
+  },
+  {
     "objectID": "aboutme.html",
     "href": "aboutme.html",
     "title": "About me",
@@ -7,11 +14,18 @@
     "text": "Hello! I am a second year MPH student at UGA concentrating in Biostatistics. My goal is to work with data management systems in hospitals to streamline the process of healthcare data across several platforms."
   },
   {
-    "objectID": "tidytuesday_exercise.html",
-    "href": "tidytuesday_exercise.html",
-    "title": "Tidy Tuesday Exercise",
-    "section": "",
-    "text": "Placeholder file for the future Tidy Tuesday exercise."
+    "objectID": "aboutme.html#experience",
+    "href": "aboutme.html#experience",
+    "title": "About me",
+    "section": "Experience",
+    "text": "Experience\nMuch of what I have learned about coding in R was from this website. DataCamp is a free resource for high quality programming practice. I would recommend making an account if you would like foundational knowledge or more practice with R, though DataCamp is not relegated to just R."
+  },
+  {
+    "objectID": "aboutme.html#interests",
+    "href": "aboutme.html#interests",
+    "title": "About me",
+    "section": "Interests",
+    "text": "Interests\nIn my past time, I garden with my family. We endeavor to maintain self-sufficient-style gardening in which we cycle the types of crops we grow to accommodate our own needs each season. In addition, I grow fruit trees like lemons, pomegranates, and apples from seed."
   },
   {
     "objectID": "visualization_exercise.html",
@@ -33,19 +47,5 @@
     "title": "My website and data analysis portfolio",
     "section": "",
     "text": "Hello!\nAnd welcome to my website.\n\nFeel free to take a look around and explore!\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nHave fun!"
-  },
-  {
-    "objectID": "aboutme.html#experience",
-    "href": "aboutme.html#experience",
-    "title": "About me",
-    "section": "Experience",
-    "text": "Experience\nMuch of what I have learned about coding in R was from this website. DataCamp is a free resource for high quality programming practice. I would recommend making an account if you would like foundational knowledge or more practice with R, though DataCamp is not relegated to just R."
-  },
-  {
-    "objectID": "aboutme.html#interests",
-    "href": "aboutme.html#interests",
-    "title": "About me",
-    "section": "Interests",
-    "text": "Interests\nIn my past time, I garden with my family. We endeavor to maintain self-sufficient-style gardening in which we cycle the types of crops we grow to accommodate our own needs each season. In addition, I grow fruit trees like lemons, pomegranates, and apples from seed."
   }
 ]
