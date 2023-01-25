@@ -5,4 +5,113 @@ output:
     toc: FALSE
 ---
 
-Placeholder file for the future R coding exercise.
+
+```{r}
+# Loading the "dslabs", "tidyverse", and "ggplot2" packages
+library(dslabs)
+library(tidyverse)
+library(ggplot2)
+
+# Bring up a help page describing the data
+help(gapminder)
+
+# Provides an overview of the data
+str(gapminder)
+
+# Provides a summary of the data
+summary(gapminder)
+
+# Identifies the type of object we are dealing with
+class(gapminder)
+
+# Assigns all of the data pertaining to African countries from 
+# gapminder to a new data frame
+africadata <- gapminder %>%
+                  filter(continent == "Africa")
+
+# Assures the isolated values are correctly identified
+str(africadata)
+summary(africadata)
+
+# Assigns the variables `infant_mortality` and `life_expectancy` 
+# to a new data frame
+infMort <- africadata %>%
+               select(infant_mortality,life_expectancy)
+# Assures the variables have been added to the new data frame
+# correctly
+str(infMort)
+summary(infMort)
+
+# Assigns the variables `population` and `life_expectancy` 
+# to a new data frame
+pop <- africadata %>%
+           select(population,life_expectancy)
+
+# Assigns the variables `population` and `life_expectancy` 
+# to a new data frame
+str(pop)
+summary(pop)
+```
+```{r}
+# Creates a scatterplot of the data with `infant_mortality` as the 
+# independent variable and `life_expectancy` as the dependent variable.
+ggplot(data=infMort, aes(x=infant_mortality,y=life_expectancy)) +
+  geom_point()
+```
+```{r}
+# Creates a scatterplot of the data with log-scale `population` as the 
+# independent variable and `life_expectancy` as the dependent variable.
+ggplot(data=pop, aes(x=log(population),y=life_expectancy)) +
+  geom_point()
+```
+```{r}
+# Identifies the columns in which at least 1 observation is recorded
+# as missing (NA) based on the year
+africadata %>%
+    group_by(year) %>%
+    summarise(missing = sum(is.na(across(.cols = everything())))) %>%
+    filter(missing == 0)
+
+# Creates a new data frame that collects all the observations made 
+# in the year 2000
+africadata2000 <- africadata %>%
+                      filter(year == 2000)
+
+# Ensures that the observations where filtered correctly from the 
+# step above
+str(africadata2000)
+summary(africadata2000)
+```
+
+```{r}
+# Creates a scatterplot of the data with `infant_mortality` as the 
+# independent variable and `life_expectancy` as the dependent variable
+# based on the `africadata2000` data frame.
+ggplot(data=africadata2000, aes(x=infant_mortality,y=life_expectancy)) +
+  geom_point()
+```
+
+```{r}
+# Creates a scatterplot of the data with log-scale `population` as the 
+# independent variable and `life_expectancy` as the dependent variable 
+# based on the `africadata2000` data frame.
+ggplot(data=africadata2000, aes(x=log(population),y=life_expectancy)) +
+  geom_point()
+```
+```{r}
+# Fits a linear model to the data frame using `life_expectancy` as
+# the outcome and `infant_mortality` as the predictor
+fit1 <- lm(data=africadata2000,life_expectancy ~ infant_mortality)
+
+# Fits a linear model to the data frame using `life_expectancy` as
+# the outcome and `population` as the predictor
+fit2 <- lm(data=africadata2000,life_expectancy ~ population)
+
+# Provides the summary for the fitted models
+summary(fit1)
+summary(fit2)
+```
+Based on the models above, insufficient data is acquired to draw a meaningful
+conclusion between life expectancy and population size. Conversely, we can 
+conclude that there is a negative association between life expectancy and 
+infant mortality.
