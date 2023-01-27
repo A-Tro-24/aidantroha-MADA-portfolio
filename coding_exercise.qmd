@@ -5,7 +5,6 @@ output:
     toc: FALSE
 ---
 
-
 ```{r}
 # Loading the "dslabs", "tidyverse", and "ggplot2" packages
 library(dslabs)
@@ -52,18 +51,21 @@ pop <- africadata %>%
 str(pop)
 summary(pop)
 ```
+
 ```{r}
 # Creates a scatterplot of the data with `infant_mortality` as the 
 # independent variable and `life_expectancy` as the dependent variable.
 ggplot(data=infMort, aes(x=infant_mortality,y=life_expectancy)) +
   geom_point()
 ```
+
 ```{r}
 # Creates a scatterplot of the data with log-scale `population` as the 
 # independent variable and `life_expectancy` as the dependent variable.
 ggplot(data=pop, aes(x=log(population),y=life_expectancy)) +
   geom_point()
 ```
+
 ```{r}
 # Identifies the columns in which at least 1 observation is recorded
 # as missing (NA) based on the year
@@ -98,6 +100,7 @@ ggplot(data=africadata2000, aes(x=infant_mortality,y=life_expectancy)) +
 ggplot(data=africadata2000, aes(x=log(population),y=life_expectancy)) +
   geom_point()
 ```
+
 ```{r}
 # Fits a linear model to the data frame using `life_expectancy` as
 # the outcome and `infant_mortality` as the predictor
@@ -111,7 +114,25 @@ fit2 <- lm(data=africadata2000,life_expectancy ~ population)
 summary(fit1)
 summary(fit2)
 ```
-Based on the models above, insufficient data is acquired to draw a meaningful
-conclusion between life expectancy and population size. Conversely, we can 
-conclude that there is a negative association between life expectancy and 
-infant mortality.
+```{r}
+#this comment and code below was added by Jacob Matta
+
+#downloand the broom package to make a tibble out of the lm() function
+install.packages("broom")
+library(broom)
+
+#apply the tidy function to fit1 and fit2 which will give you a tabular data representation of the coefficients 
+tidy_fit1 <- tidy(fit1)
+tidy_fit2 <- tidy(fit2)
+
+#apply the augment function to fit1 and fit2 to get a fitted values and residuals for each  point in the regression
+augment_fit1 <- augment(fit1)
+augment_fit2 <- augment(fit2)
+
+#apply the glance function to compute several summary statistics such as R, R^2 and p-value
+glance_fit1 <- glance(fit1)
+glance_fit2 <- glance(fit2)
+
+#notice that the broom package functions tidy, augment and glance help clean the lm function by turning coefficients, fitted values, residuals, and summary statistics into a tabular form
+```
+Based on the models above, insufficient data is acquired to draw a meaningful conclusion between life expectancy and population size. Conversely, we can conclude that there is a negative association between life expectancy and infant mortality.
