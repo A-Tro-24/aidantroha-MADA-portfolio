@@ -1,0 +1,37 @@
+---
+title: "Data Anlaysis Exercise - Module 4"
+author: "Aidan Troha &"
+output:
+  html_document:
+    toc: FALSE
+---
+
+This data, from NCHS, shows provisional death counts for the US. These data are obtained from the CDC website, data.CDC.org. Within, you can find COVID-19-related deaths separated by education, age, sex, and race. Data was collected as early as January 1st, 2020 and continued until January 30th, 2021. The data was last updated February 3rd, 2021.
+```{r}
+library(readr)
+library(tidyverse)
+```
+
+```{r}
+# Imports the raw data set. The original data set is a CSV file.
+raw_data <- read_csv("data/AH_Provisional_COVID-19_Deaths_by_Educational_Attainment__Race__Sex__and_Age.csv")
+# Shows the classes of the variables.
+glimpse(raw_data)
+# Creates a new data set with the variables we would like to keep. In an effort to be 
+# more user friendly, the variable names have been converted to all lowercase with no 
+# spaces. Also, some variables have been converted to factor classes.
+new_data <- raw_dat %>%
+    # Changes the variable names and makes some factors.
+           mutate(education_level = as.factor(`Education Level`),
+                  race_origin = as.factor(`Race or Hispanic Origin`),
+                  sex = as.factor(`Sex`),
+                  age_group = as.factor(`Age Group`),
+                  covid_deaths = `COVID-19 Deaths`,
+                  total_deaths = `Total Deaths`
+                  ) %>%
+    # Pushes only the properly formatted variables to the new data set.
+           select(education_level,race_origin,sex,age_group,covid_deaths,total_deaths)
+# Shows a summary of the variables included in the dataset.
+glimpse(new_data)
+summary(new_data)
+```
