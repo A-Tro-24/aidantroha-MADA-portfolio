@@ -10,6 +10,10 @@ This data, from NCHS, shows provisional death counts for the US. These data are 
 ```{r}
 library(readr)
 library(tidyverse)
+library(skimr)
+library(broom)
+library(agricolae)
+library(stringr)
 ```
 
 ```{r}
@@ -35,3 +39,85 @@ new_data <- raw_data %>%
 glimpse(new_data)
 summary(new_data)
 ```
+
+#this section is added by Weifan
+
+```{r}
+#exploration of the relationship between sex, age, and covid deaths
+#checking the missing data
+head(new_data)
+skim(new_data)
+#there is no missing data, so we don't need to drop anything. Now, summarize the covid_deaths by sex and age
+sex_age_cov=new_data%>%
+  select(sex,covid_deaths,age_group)%>%
+    group_by(sex,age_group)%>%
+  summarise(total=sum(covid_deaths))
+sex_age_cov
+```
+```{r}
+#plotting
+sex_age_cov%>%
+  ggplot(aes(x=age_group,y=total,fill=sex))+
+  geom_bar(stat="identity",color="blue",position=position_dodge())+
+  labs(title="Numbers of covid deaths at different age groups",y="covid death")+
+  theme_classic()
+
+  
+```
+#fitting models using sex and age separately to predict covid deaths
+```{r}
+#using sex to predict covid death
+sex_cov_model=aov(covid_deaths~sex,data=new_data)
+#omnibus test
+anova(sex_cov_model)
+#since there p=0.878, there is no significant difference in the numbers of covid-death between male and female
+
+#using age_group to predict covid death
+age_cov_model=aov(covid_deaths~age_group,data=new_data)
+#omnibus test
+anova(age_cov_model)
+#since p-value is <0.001, there is significant difference between age groups. using fisher's least significant difference to do post hoc analysis
+lsdTest=LSD.test(age_cov_model,"age_group")
+lsdTest
+#according to the analysis, the the number of covid deaths in 65 years and over is significantly higher than that in other age groups
+```
+```{r}
+summary(new_data)
+#since 25% of education level is unknown, I will not analyze this variable
+#exploration of the relationship between ethnicity and proportion of covid death in total death
+#change the lengthy level names of race variable, change the race variable to factor
+race_cov=new_data%>%
+  mutate(race_origin=case_when(race_origin=="Non-Hispanic American Indian or Alaska Native"~"Indian/Alaska Native" ,race_origin=="Non-Hispanic Asian"~"Asian", race_origin=="Non-Hispanic Black"~"Black",race_origin=="Non-Hispanic Native Hawaiian or Other Pacific Islander"~"Native Islander", race_origin=="Non-Hispanic White"~"white",race_origin=="Hispanic"~"Hispanic"))%>%
+  mutate(race_origin=as.factor(race_origin))%>%
+  group_by(race_origin)%>%
+  summarise(covid_deaths1=sum(covid_deaths),total_deaths1=sum(total_deaths))%>%
+  mutate(prop=covid_deaths1/total_deaths1)
+glimpse(race_cov)
+levels(race_cov$race_origin)
+#plotting
+race_cov%>%
+  ggplot(aes(x=race_origin,y=prop))+
+  geom_col()+
+  scale_x_discrete()+
+  labs(x="races",y="the proportion",title="The proportion of deaths caused by coronavirus in total deaths among races")+
+  theme_classic()
+ 
+```
+take a look at absolute value of covid death among races
+```{r}
+race_cov2=new_data%>%
+  mutate(race_origin=case_when(race_origin=="Non-Hispanic American Indian or Alaska Native"~"Indian/Alaska Native" ,race_origin=="Non-Hispanic Asian"~"Asian", race_origin=="Non-Hispanic Black"~"Black",race_origin=="Non-Hispanic Native Hawaiian or Other Pacific Islander"~"Native Islander", race_origin=="Non-Hispanic White"~"white",race_origin=="Hispanic"~"Hispanic"))%>%
+  mutate(race_origin=as.factor(race_origin))%>%
+  group_by(race_origin)%>%
+  summarise(covid_deaths=sum(covid_deaths))
+#plotting
+race_cov2%>%
+  ggplot(aes(x=race_origin,y=covid_deaths))+
+  geom_col()+
+  scale_x_discrete()+
+  scale_y_log10()+
+  labs(x="races",y="covid deaths numbers",title="absolute counts of covid-related deaths among races")+
+  theme_classic()
+```
+Absolute covid-related death population was highest in American whites, however, the proportion of Covid-associated deaths was lowest in American white. 
+

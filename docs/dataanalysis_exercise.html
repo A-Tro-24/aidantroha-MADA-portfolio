@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -216,18 +216,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+<<<<<<< HEAD
 ✔ ggplot2 3.3.6     ✔ dplyr   1.0.9
 ✔ tibble  3.1.8     ✔ stringr 1.4.1
 ✔ tidyr   1.2.1     ✔ forcats 0.5.2
 ✔ purrr   0.3.4     
+=======
+✔ ggplot2 3.4.0      ✔ dplyr   1.0.10
+✔ tibble  3.1.8      ✔ stringr 1.5.0 
+✔ tidyr   1.2.1      ✔ forcats 0.5.2 
+✔ purrr   0.3.5      
+>>>>>>> main
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
+<<<<<<< HEAD
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Imports the raw data set. The original data set is a CSV file.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/AH_Provisional_COVID-19_Deaths_by_Educational_Attainment__Race__Sex__and_Age.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agricolae)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Imports the raw data set. The original data set is a CSV file.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/AH_Provisional_COVID-19_Deaths_by_Educational_Attainment__Race__Sex__and_Age.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> main
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 224 Columns: 9
 ── Column specification ────────────────────────────────────────────────────────
@@ -238,8 +256,13 @@ dbl (2): COVID-19 Deaths, Total Deaths
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
+<<<<<<< HEAD
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shows the classes of the variables.</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(raw_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shows the classes of the variables.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(raw_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> main
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 224
 Columns: 9
@@ -253,6 +276,7 @@ $ `Age Group`               &lt;chr&gt; "0-17 years", "18-49 years", "50-64 year
 $ `COVID-19 Deaths`         &lt;dbl&gt; 0, 423, 857, 1793, 0, 737, 1592, 2655, 0, 82…
 $ `Total Deaths`            &lt;dbl&gt; 2, 3117, 4153, 10225, 1, 5676, 6183, 11544, …</code></pre>
 </div>
+<<<<<<< HEAD
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates a new data set with the variables we would like to keep. In an effort to be </span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># more user friendly, the variable names have been converted to all lowercase with no </span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># spaces. Also, some variables have been converted to factor classes.</span></span>
@@ -269,6 +293,24 @@ $ `Total Deaths`            &lt;dbl&gt; 2, 3117, 4153, 10225, 1, 5676, 6183, 115
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>           <span class="fu">select</span>(education_level,race_origin,sex,age_group,covid_deaths,total_deaths)</span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Shows a summary of the variables included in the dataset.</span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(new_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates a new data set with the variables we would like to keep. In an effort to be </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># more user friendly, the variable names have been converted to all lowercase with no </span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># spaces. Also, some variables have been converted to factor classes.</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> raw_data <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Changes the variable names and makes some factors.</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>           <span class="fu">mutate</span>(<span class="at">education_level =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Education Level</span><span class="st">`</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">race_origin =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Race or Hispanic Origin</span><span class="st">`</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sex =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Sex</span><span class="st">`</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">age_group =</span> <span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Age Group</span><span class="st">`</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">covid_deaths =</span> <span class="st">`</span><span class="at">COVID-19 Deaths</span><span class="st">`</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">total_deaths =</span> <span class="st">`</span><span class="at">Total Deaths</span><span class="st">`</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                  ) <span class="sc">%&gt;%</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pushes only the properly formatted variables to the new data set.</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>           <span class="fu">select</span>(education_level,race_origin,sex,age_group,covid_deaths,total_deaths)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Shows a summary of the variables included in the dataset.</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(new_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> main
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 224
 Columns: 6
@@ -279,7 +321,11 @@ $ age_group       &lt;fct&gt; 0-17 years, 18-49 years, 50-64 years, 65 years and
 $ covid_deaths    &lt;dbl&gt; 0, 423, 857, 1793, 0, 737, 1592, 2655, 0, 82, 176, 362…
 $ total_deaths    &lt;dbl&gt; 2, 3117, 4153, 10225, 1, 5676, 6183, 11544, 0, 591, 79…</code></pre>
 </div>
+<<<<<<< HEAD
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(new_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(new_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> main
 <div class="cell-output cell-output-stdout">
 <pre><code>                         education_level
  Associate degree or some college:56    
@@ -307,6 +353,371 @@ $ total_deaths    &lt;dbl&gt; 2, 3117, 4153, 10225, 1, 5676, 6183, 11544, 0, 591
                                                              </code></pre>
 </div>
 </div>
+<<<<<<< HEAD
+=======
+<p>#this section is added by Weifan</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#exploration of the relationship between sex, age, and covid deaths</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#checking the missing data</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(new_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  education_level                  race_origin sex    age_group  covid…¹ total…²
+  &lt;fct&gt;                            &lt;fct&gt;       &lt;fct&gt;  &lt;fct&gt;        &lt;dbl&gt;   &lt;dbl&gt;
+1 Associate degree or some college Hispanic    Female 0-17 years       0       2
+2 Associate degree or some college Hispanic    Female 18-49 yea…     423    3117
+3 Associate degree or some college Hispanic    Female 50-64 yea…     857    4153
+4 Associate degree or some college Hispanic    Female 65 years …    1793   10225
+5 Associate degree or some college Hispanic    Male   0-17 years       0       1
+6 Associate degree or some college Hispanic    Male   18-49 yea…     737    5676
+# … with abbreviated variable names ¹​covid_deaths, ²​total_deaths</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(new_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">new_data</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">224</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">factor</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: left;">ordered</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: left;">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">education_level</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Ass: 56, Bac: 56, Hig: 56, Unk: 56</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">race_origin</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">His: 32, Non: 32, Non: 32, Non: 32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sex</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Fem: 112, Mal: 112</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age_group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">0-1: 56, 18-: 56, 50-: 56, 65 : 56</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 3%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">covid_deaths</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1880.20</td>
+<td style="text-align: right;">7654.17</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3.75</td>
+<td style="text-align: right;">81.0</td>
+<td style="text-align: right;">627.0</td>
+<td style="text-align: right;">76871</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">total_deaths</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">15665.81</td>
+<td style="text-align: right;">64240.44</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">112.00</td>
+<td style="text-align: right;">817.5</td>
+<td style="text-align: right;">4997.5</td>
+<td style="text-align: right;">670295</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#there is no missing data, so we don't need to drop anything. Now, summarize the covid_deaths by sex and age</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sex_age_cov<span class="ot">=</span>new_data<span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sex,covid_deaths,age_group)<span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(sex,age_group)<span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total=</span><span class="fu">sum</span>(covid_deaths))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'sex'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sex_age_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 3
+# Groups:   sex [2]
+  sex    age_group          total
+  &lt;fct&gt;  &lt;fct&gt;              &lt;dbl&gt;
+1 Female 0-17 years            77
+2 Female 18-49 years         6055
+3 Female 50-64 years        21596
+4 Female 65 years and over 164713
+5 Male   0-17 years           109
+6 Male   18-49 years        11739
+7 Male   50-64 years        39432
+8 Male   65 years and over 177443</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plotting</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sex_age_cov<span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>age_group,<span class="at">y=</span>total,<span class="at">fill=</span>sex))<span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>,<span class="at">color=</span><span class="st">"blue"</span>,<span class="at">position=</span><span class="fu">position_dodge</span>())<span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Numbers of covid deaths at different age groups"</span>,<span class="at">y=</span><span class="st">"covid death"</span>)<span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="dataanalysis_exercise_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>#fitting models using sex and age separately to predict covid deaths</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#using sex to predict covid death</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>sex_cov_model<span class="ot">=</span><span class="fu">aov</span>(covid_deaths<span class="sc">~</span>sex,<span class="at">data=</span>new_data)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#omnibus test</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(sex_cov_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: covid_deaths
+           Df     Sum Sq  Mean Sq F value Pr(&gt;F)
+sex         1 5.8767e+06  5876712  0.0999 0.7522
+Residuals 222 1.3059e+10 58823673               </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#since there p=0.878, there is no significant difference in the numbers of covid-death between male and female</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#using age_group to predict covid death</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>age_cov_model<span class="ot">=</span><span class="fu">aov</span>(covid_deaths<span class="sc">~</span>age_group,<span class="at">data=</span>new_data)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#omnibus test</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(age_cov_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: covid_deaths
+           Df     Sum Sq   Mean Sq F value   Pr(&gt;F)    
+age_group   3 1.3708e+09 456946592  8.5966 2.02e-05 ***
+Residuals 220 1.1694e+10  53154056                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#since p-value is &lt;0.001, there is significant difference between age groups. using fisher's least significant difference to do post hoc analysis</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>lsdTest<span class="ot">=</span><span class="fu">LSD.test</span>(age_cov_model,<span class="st">"age_group"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>lsdTest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$statistics
+   MSerror  Df     Mean       CV  t.value      LSD
+  53154056 220 1880.196 387.7618 1.970806 2715.395
+
+$parameters
+        test p.ajusted    name.t ntr alpha
+  Fisher-LSD      none age_group   4  0.05
+
+$means
+                  covid_deaths          std  r        LCL      UCL Min   Max
+0-17 years            3.321429     8.829923 56 -1916.7526 1923.395   0    43
+18-49 years         317.750000   690.819915 56 -1602.3241 2237.824   1  4558
+50-64 years        1089.785714  2101.446365 56  -830.2883 3009.860   3 10561
+65 years and over  6109.928571 14412.593053 56  4189.8545 8030.003   8 76871
+                     Q25   Q50    Q75
+0-17 years          0.00   0.0    1.0
+18-49 years        18.75  64.5  273.0
+50-64 years        47.75 213.0  900.0
+65 years and over 143.25 889.5 2775.5
+
+$comparison
+NULL
+
+$groups
+                  covid_deaths groups
+65 years and over  6109.928571      a
+50-64 years        1089.785714      b
+18-49 years         317.750000      b
+0-17 years            3.321429      b
+
+attr(,"class")
+[1] "group"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#according to the analysis, the the number of covid deaths in 65 years and over is significantly higher than that in other age groups</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(new_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         education_level
+ Associate degree or some college:56    
+ Bachelor’s degree or more       :56    
+ High school graduate/GED or less:56    
+ Unknown                         :56    
+                                        
+                                        
+                                        
+                                                 race_origin     sex     
+ Hispanic                                              :32   Female:112  
+ Non-Hispanic American Indian or Alaska Native         :32   Male  :112  
+ Non-Hispanic Asian                                    :32               
+ Non-Hispanic Black                                    :32               
+ Non-Hispanic Native Hawaiian or Other Pacific Islander:32               
+ Non-Hispanic White                                    :32               
+ Other/Unknown                                         :32               
+             age_group   covid_deaths       total_deaths     
+ 0-17 years       :56   Min.   :    0.00   Min.   :     0.0  
+ 18-49 years      :56   1st Qu.:    3.75   1st Qu.:   112.0  
+ 50-64 years      :56   Median :   81.00   Median :   817.5  
+ 65 years and over:56   Mean   : 1880.20   Mean   : 15665.8  
+                        3rd Qu.:  627.00   3rd Qu.:  4997.5  
+                        Max.   :76871.00   Max.   :670295.0  
+                                                             </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#since 25% of education level is unknown, I will not analyze this variable</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">#exploration of the relationship between ethnicity and proportion of covid death in total death</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">#change the lengthy level names of race variable, change the race variable to factor</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>race_cov<span class="ot">=</span>new_data<span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race_origin=</span><span class="fu">case_when</span>(race_origin<span class="sc">==</span><span class="st">"Non-Hispanic American Indian or Alaska Native"</span><span class="sc">~</span><span class="st">"Indian/Alaska Native"</span> ,race_origin<span class="sc">==</span><span class="st">"Non-Hispanic Asian"</span><span class="sc">~</span><span class="st">"Asian"</span>, race_origin<span class="sc">==</span><span class="st">"Non-Hispanic Black"</span><span class="sc">~</span><span class="st">"Black"</span>,race_origin<span class="sc">==</span><span class="st">"Non-Hispanic Native Hawaiian or Other Pacific Islander"</span><span class="sc">~</span><span class="st">"Native Islander"</span>, race_origin<span class="sc">==</span><span class="st">"Non-Hispanic White"</span><span class="sc">~</span><span class="st">"white"</span>,race_origin<span class="sc">==</span><span class="st">"Hispanic"</span><span class="sc">~</span><span class="st">"Hispanic"</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race_origin=</span><span class="fu">as.factor</span>(race_origin))<span class="sc">%&gt;%</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(race_origin)<span class="sc">%&gt;%</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">covid_deaths1=</span><span class="fu">sum</span>(covid_deaths),<span class="at">total_deaths1=</span><span class="fu">sum</span>(total_deaths))<span class="sc">%&gt;%</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop=</span>covid_deaths1<span class="sc">/</span>total_deaths1)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(race_cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 7
+Columns: 4
+$ race_origin   &lt;fct&gt; Asian, Black, Hispanic, Indian/Alaska Native, Native Isl…
+$ covid_deaths1 &lt;dbl&gt; 15707, 62584, 76113, 4831, 756, 258172, 3001
+$ total_deaths1 &lt;dbl&gt; 96761, 453040, 322179, 24876, 4653, 2581794, 25838
+$ prop          &lt;dbl&gt; 0.16232780, 0.13814233, 0.23624445, 0.19420325, 0.162475…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(race_cov<span class="sc">$</span>race_origin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Asian"                "Black"                "Hispanic"            
+[4] "Indian/Alaska Native" "Native Islander"      "white"               </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plotting</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>race_cov<span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>race_origin,<span class="at">y=</span>prop))<span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>()<span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"races"</span>,<span class="at">y=</span><span class="st">"the proportion"</span>,<span class="at">title=</span><span class="st">"The proportion of deaths caused by coronavirus in total deaths among races"</span>)<span class="sc">+</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="dataanalysis_exercise_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>take a look at absolute value of covid death among races</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>race_cov2<span class="ot">=</span>new_data<span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race_origin=</span><span class="fu">case_when</span>(race_origin<span class="sc">==</span><span class="st">"Non-Hispanic American Indian or Alaska Native"</span><span class="sc">~</span><span class="st">"Indian/Alaska Native"</span> ,race_origin<span class="sc">==</span><span class="st">"Non-Hispanic Asian"</span><span class="sc">~</span><span class="st">"Asian"</span>, race_origin<span class="sc">==</span><span class="st">"Non-Hispanic Black"</span><span class="sc">~</span><span class="st">"Black"</span>,race_origin<span class="sc">==</span><span class="st">"Non-Hispanic Native Hawaiian or Other Pacific Islander"</span><span class="sc">~</span><span class="st">"Native Islander"</span>, race_origin<span class="sc">==</span><span class="st">"Non-Hispanic White"</span><span class="sc">~</span><span class="st">"white"</span>,race_origin<span class="sc">==</span><span class="st">"Hispanic"</span><span class="sc">~</span><span class="st">"Hispanic"</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race_origin=</span><span class="fu">as.factor</span>(race_origin))<span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(race_origin)<span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">covid_deaths=</span><span class="fu">sum</span>(covid_deaths))</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co">#plotting</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>race_cov2<span class="sc">%&gt;%</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>race_origin,<span class="at">y=</span>covid_deaths))<span class="sc">+</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>()<span class="sc">+</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"races"</span>,<span class="at">y=</span><span class="st">"covid deaths numbers"</span>,<span class="at">title=</span><span class="st">"absolute counts of covid-related deaths among races"</span>)<span class="sc">+</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="dataanalysis_exercise_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Absolute covid-related death population was highest in American whites, however, the proportion of Covid-associated deaths was lowest in American white.</p>
+>>>>>>> main
 
 
 
