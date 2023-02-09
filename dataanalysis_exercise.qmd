@@ -20,7 +20,7 @@ glimpse(raw_data)
 # Creates a new data set with the variables we would like to keep. In an effort to be 
 # more user friendly, the variable names have been converted to all lowercase with no 
 # spaces. Also, some variables have been converted to factor classes.
-new_data <- raw_dat %>%
+new_data <- raw_data %>%
     # Changes the variable names and makes some factors.
            mutate(education_level = as.factor(`Education Level`),
                   race_origin = as.factor(`Race or Hispanic Origin`),
