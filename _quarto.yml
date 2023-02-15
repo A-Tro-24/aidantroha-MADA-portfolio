@@ -14,11 +14,14 @@ website:
             href: ./coding_exercise.html
           - text: "Visualization Exercise"
             href: ./visualization_exercise.html
+          - text: "Data Analysis Exercise"
+            href: ./dataanalysis_exercise.html
           - text: "Tidy Tuesday Exercise"
             href: ./tidytuesday_exercise.html
+
     right:
       - icon: github 
-        href: URL-TO-THIS-REPOSITORY-HERE        
+        href: https://a-tro-24.github.io/aidantroha-MADA-portfolio/     
 
 format:
   html:
