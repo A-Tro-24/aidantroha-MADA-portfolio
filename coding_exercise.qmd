@@ -118,7 +118,6 @@ summary(fit2)
 #this comment and code below was added by Jacob Matta
 
 #downloand the broom package to make a tibble out of the lm() function
-install.packages("broom")
 library(broom)
 
 #apply the tidy function to fit1 and fit2 which will give you a tabular data representation of the coefficients 
