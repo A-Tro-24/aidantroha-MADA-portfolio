@@ -5,4 +5,145 @@ output:
     toc: FALSE
 ---
 
-Placeholder file for the future Tidy Tuesday exercise.
+##Packages Used    
+
+```{r}
+library(tidyverse)
+library(exact2x2)
+```
+
+##Importing the Data    
+
+```{r}
+ttdata <- data.frame(tidytuesdayR::tt_load('2023-02-14')$age_gaps)
+```
+
+##Viewing the Data    
+
+```{r}
+# Gives a summary of the data
+glimpse(ttdata)
+# Checks to ensure all characters are defined at "man" and "woman"
+unique(ttdata$character_1_gender)
+unique(ttdata$character_2_gender)
+# Checks for any missing values
+naniar::gg_miss_var(ttdata)
+```
+According to the `gg_miss_var()` function in the `naniar` package, we see that there are no missing values in any of the variables.    
+We can forgo usual data repair.    
+
+##Objectives     
+According to the variables, we may be interested in seeing the proportion of on-screen romances that occur between heterosexual and homosexual couples presented on the big screen. We may also wonder if these relationships are typical of this data set. We also may notice that a wide age gap between these on-screen relationships.    
+
+###Questions:    
+
+####1. What proportion of movies depict same-sex relationships? Is this surprising?    
+
+####2. What happens when er compare these proportions after and before the year 2000? Is there a difference?    
+
+####3. What are the odds of having an excessively high age difference given relationship type?    
+
+###Acquiring Needed Data    
+```{r}
+dt <- ttdata %>%
+# Chooses only variables of interest
+                  select(character_1_gender,character_2_gender,age_difference,release_year) %>%
+# Creates a new variables based on whether the genders of the two characters are the same
+                  mutate(relate_type = ifelse(character_1_gender == character_2_gender,"same","different"),
+# Changes the parameter to a bivariate outcome: `before 2000` and `2000 and after`
+                         release_year = ifelse(release_year >= 2000,
+                                               "2000 or after",
+                                               "before 2000"),
+# Changes the parameter to a bivariate outcome: `0-14` and `15+`
+                         age_difference = ifelse(age_difference < 15,
+                                                 "0-14",
+                                                 "15+"))
+```
+Here, we select for only the data that suits our needs. We only want to see the characters' genders and their age differences. In order for our analyses to work, we must convert the `age_difference` variable into a binary outcome, so we condition the age differences of the actors into 2 categories: 0-14 and 15+. This way, we can construct a 2-way table to represent the distribution of age differences based on on-screen relationship pairs.    
+
+###1.    
+###Representing the Data    
+```{r}
+# Converts the data into a 2-way table representing each pair
+part1 <- with(dt,table(character_1_gender,character_2_gender))
+# Makes the table more readable
+names(dimnames(part1)) <- c("Character 1","Character 2")
+# Shows row and column totals
+part1 %>% addmargins()
+```
+The table above represents the the number of on-screen romances. We can see that only 12 films represent gay relationships and that 11 films represent lesbian relationships, meaning there are a total of 23 films with some kind of homosexual representation in these 1155 films. It may be helpful to examine their relative proportions:    
+```{r}
+# Shows cell proportions
+part1_props <- prop.table(part1)
+part1_props
+```
+Here, we see that less than 2% of these 1155 films had homosexual representation of some sort. Using a binomial distribution, we can determine if this is an uncommon occurrence:    
+```{r}
+part1 <- part1 %>% addmargins()
+# Simple proportion test using 95% Confidence Interval
+DescTools::BinomCI(part1[1,1]+part1[2,2],part1[3,3])
+```
+Based on the calculations above, we can say that with 95% confidence, the true proportion of films with gay representation lies inside the interval 1.33% and 2.97%. This is still a very small percentage, so we might conclude that gay representation is still very low.    
+
+But maybe more and more films have begun to prominently display gay relationships since 2000. How can we show this?    
+
+###2.    
+###Representing the Data    
+```{r}
+# Converts the data into a 2-way table representing on-screen relationships
+# stratified by release year and relationship type
+part2 <- with(dt,table(relate_type,release_year))
+# Makes the table more readable
+names(dimnames(part2)) <- c("Relationship Type","Release Year")
+# Shows row and column totals
+part2 %>% addmargins()
+```
+We can choose to display the data as a table, but it can be difficult to quickly interpret the potential relationships between variables. Often, data in 2-way tables are displayed as mosaic plots for this reason.    
+```{r}
+# Constructs a mosaic plot of the data
+mosaicplot(data=dt, release_year ~ relate_type,
+           main = "Distribution of On-Screen Relationships \n by Release Date and Type",
+           xlab = "Release Year",
+           ylab = "Relationship Type")
+```
+Now, we can easily see that heterosexual relationships are still much more common than same sex relationships, but compared to before 2000, there appear to be more same sex relationships in 2000 and after.    
+
+Now let's see if this increased number of same sex couples represented on screen is due to some factor other than the increased number of films produced after 2000. We can test this by using a X^2 test for independence.     
+```{r}
+# Performs the continuity corrected X^2 test for independence
+chisq.test(part2)
+fisher.exact(part2, midp=TRUE)
+```
+Here, we use two tests for independence: the standard X^2 procedure and the Fisher's exact test. The Fisher's exact test is a special form of the X^2 test used when one or more of the cell counts is less than 5. Based on the results of the X^2 test displayed above, we conclude that same sex representation is not independent from release year.     
+```{r}
+# Shows the expected values used in the X^2 test
+chisq.test(part2)$expected
+# Shows the residuals from the X^2 test
+chisq.test(part2)$res
+```
+According to the residuals presented in the table above, same sex relationships showed a higher probability of occurrence after 2000 than before 2000, indicating an increase in the number of these relationships since the year 2000.     
+
+###3.    
+###Representing the data    
+```{r}
+# Converts the data into a 2-way table representing on-screen relationships
+# stratified by age difference and relationship type
+part3 <- with(dt,table(relate_type,age_difference))
+# Makes the table more readable
+names(dimnames(part3)) <- c("Relationship Type","Age Difference")
+# Shows row and column totals
+part3 %>% addmargins()
+```
+Above, we can see the 2-way table for age difference vs. relationship type, and below is the mosaic plot.    
+```{r}
+# Constructs a mosaic plot of the data
+mosaicplot(data=dt, age_difference~ relate_type,
+           main = "Distribution of On-Screen Relationships \n by Age Difference and Type",
+           xlab = "Age Difference",
+           ylab = "Relationship Type")
+```
+Using an odds ratio, we may be able to identify a relationship between age difference and relationship type.    
+```{r}
+epitools::oddsratio(part3)
+```
+According to the analyses above, the data fail to establish an association between relationship type and actors' age difference.
