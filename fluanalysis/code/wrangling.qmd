@@ -1,0 +1,28 @@
+---
+title: "FluAnalysis"
+author: "Aidan Troha"
+editor: visual
+---
+We begin by using the library function to be able to use the `tidyverse` packages
+```{r}
+library(tidyverse)
+```
+We use the `here()` function from the `here` package to identify the file location and use `readRDS` to import the `.Rda` file.
+```{r}
+fludat_raw <- here::here("fluanalysis","data","raw_data","SympAct_Any_Pos.Rda")
+flu_raw <- readRDS(fludat_raw)
+```
+We use the `anyNA()` function to indicate whether there are any missing values in the original data set. Also, we can use the `!c()` to make a subset of all the variables we do not want to include. On top of this, we can use `dplyr`'s `select()` to choose the variables we want to include in the new data set. Finally, we apply `drop_na()` to exclude any missing data. At the end, we validate that out analyses excluded all missing data using `anyNA()` on the new data set.
+```{r}
+anyNA(flu_raw)
+flu_clean <- flu_raw %>%
+                select(!c(contains(c("Score","Total","FluA","FluB",
+                                     "Dxname","Activity")),"Unique.Visit")) %>%
+                drop_na()
+anyNA(flu_clean)
+```
+Again, we use the `here()` function to clearly indicate where the `RDS` file should be saved. We use `saveRDS()` to save the data set as the proper file type.
+```{r}
+fludat_clean <- here::here("fluanalysis","data","processed_data","flu_processed")
+saveRDS(flu_clean,file=fludat_clean)
+```

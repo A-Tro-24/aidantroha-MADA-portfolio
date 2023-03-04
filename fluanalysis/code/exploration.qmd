@@ -1,0 +1,152 @@
+---
+title: "FluAnalysis"
+author: "Aidan Troha"
+editor: visual
+---
+```{r}
+library(tidyverse)
+```
+# Data Exploration
+
+## Outcomes of Interest
+
+\~Body Temperature (cont.)\
+\~Nausea (binary, yes/no)
+
+## Potential Predictors
+
+\~Chills/Sweats (binary, yes/no)\
+\~Vomiting (binary, yes/no)\
+\~Fatigue (binary, yes/no)\
+\~Swollen Lymph Nodes (binary, yes/no)\
+\~Weakness (cat.)\
+\~Cough Intensity (cat.)
+
+### The Outcomes
+
+We can get an idea of what analyses we might want to do by first exploring the proportion of patients that experience each predictor variable, relative to the two outcomes of interest (ie. Body Temperature and Nausea).
+
+Let's first take a look at how patients' body temperatures are distributed. We can do this by using `base r`'s `plot()`, specifying `BodyTemp` using `$`. I've introduced two vertical lines, one representing the mean (dark blue) and one representing the median (light blue). This was done by inserting a vertical `abline()` in conjunction with `mean()` and `median()`.
+
+We must also ensure that the data set we previously cleaned carries over to this segment of the analysis. 
+```{r}
+fludat_clean <- here::here("fluanalysis","data","processed_data","flu_processed")
+flu_clean <- readRDS(fludat_clean)
+```
+
+```{r}
+hist(flu_clean$BodyTemp,col="maroon",main="Distribution of Body Temperatures",
+     xlab="Patient Body Temperature")
+abline(v=c(mean(flu_clean$BodyTemp),median(flu_clean$BodyTemp)),
+       col=c("blue","lightblue"),lty=2)
+```
+
+We can see that patients' body temperatures are not normally distributed. Instead, the distribution is skewed toward more extreme values likes 103 degrees Fahrenheit which makes sense as we know this sample is based in flu data, and patients who have the flu typically have elevated temperatures.
+
+We may also like to know what percentage of flu sufferers experience nausea. To do this, we can use `with()` to form a `table()` centering on the binary outcomes for the `Nausea` variable (ie. Yes and No).
+
+```{r}
+with(flu_clean,table(Nausea)) %>%
+    prop.table()
+```
+
+We can see that 65% of flu sufferers do not experience any recognizable nausea related symptoms.
+
+### Plotting
+
+We can initialize the general plot format using `ggplot()` and specifying the data set we will use. This will be useful as we will make a number of plots using this data.
+
+```{r}
+BTplot <- ggplot(flu_clean)
+```
+
+Below, we use `geom_violin()` to show the distribution of patients' temperatures according to whether or not the patient experienced chills or sweats. For all of the subsequent graphs, we have to specify which explanatory and response variables we want to use. To accomplish this, we must use the scheme `aes(x=,y=)`. For differentiation (and for fun), we also include a fill color to help differentiate between graphs.
+
+```{r}
+BTplot +
+geom_violin(aes(ChillsSweats,BodyTemp),fill="red")
+```
+
+We see that patients who experience chills or sweats have a slightly higher temperature compared to patients who do not claim to experience chills or sweats. Using a two-way table, we can get a relative idea of how related the response variable is to the explanatory variable. We use the same method as before to create a table of the data, but this time, we specify two arguments to generate the 2-way table. Also, we can convert the table into a table of proportions by using `prop.table()`.
+
+```{r}
+with(flu_clean,table(ChillsSweats,Nausea)) %>%
+    prop.table()
+```
+
+Based on the above table, we can see that the largest proportion of flu sufferers do experience chills and sweats, but the majority of flu sufferers do not experience both chills/sweats and nausea.
+
+The graph below shows the distribution of patient temperatures based on whether or not they experienced vomiting as a symptom of the flu.
+
+```{r}
+BTplot +
+geom_violin(aes(Vomit,BodyTemp),fill="orange")
+```
+
+```{r}
+with(flu_clean,table(Vomit,Nausea)) %>%
+    prop.table()
+```
+
+According to both the plot and table above, we see that most flu sufferers do not experience vomiting as a symptom, but for those that do, nausea is a commonly reported co-symptom.
+
+Below is the distribution of patients' body temperatures stratified by fatigue status.
+
+```{r}
+BTplot +
+geom_violin(aes(Fatigue,BodyTemp),fill="yellow")
+```
+
+```{r}
+with(flu_clean,table(Fatigue,Nausea)) %>%
+    prop.table()
+```
+
+Based on the plot and table above, we do not see very interesting changes due to stratification.
+
+Below, you can find the violin plot of patients' temperatures according to whether or not the patient had swollen lymph nodes.
+
+```{r}
+BTplot +
+geom_violin(aes(SwollenLymphNodes,BodyTemp),fill="green")
+```
+
+```{r}
+with(flu_clean,table(SwollenLymphNodes,Nausea)) %>%
+    prop.table()
+```
+
+Similarly to the interactions we see with fatigue and nausea, we do not see a very substantial change due to stratification by presence of swollen lymph nodes. Interestingly, the proportions are fairly evenly distributed between all four possible outcomes, meaning the interaction between nausea and swollen lymph nodes is likely zero.
+
+The next couple explanatory variables will be interesting as they are not binary outcomes. The interactions may be more difficult to see, but they will be interesting to study.
+
+```{r}
+BTplot +
+geom_violin(aes(Weakness,BodyTemp),fill="blue")
+```
+
+```{r}
+with(flu_clean,table(Weakness,Nausea)) %>%
+    prop.table()
+```
+
+Based on the figure above, we can see a slight increase in the mean body temperature as weakness severity increases. Using the table, we see that, amongst nausea sufferers, there is a larger proportion of patients who also experienced high levels of weakness.
+
+```{r}
+BTplot +
+geom_violin(aes(CoughIntensity,BodyTemp),fill="purple")
+```
+
+```{r}
+with(flu_clean,table(CoughIntensity,Nausea)) %>%
+    prop.table()
+```
+
+We see a similar trend in coughing intensity as with weakness level; with nausea, the higher the proportion of individuals who experienced moderate or severe coughing fits.
+
+### Conclusions
+We may consider checking the relationships between the response variables and the following predictors:
+
+\~Chills/Sweats (binary, yes/no)\
+\~Fatigue (binary, yes/no)\
+\~Weakness (cat.)

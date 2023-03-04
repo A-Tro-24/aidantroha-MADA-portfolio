@@ -169,6 +169,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
     </ul>
   </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-flu-analysis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Flu Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-flu-analysis">    
+        <li>
+    <a class="dropdown-item" href="././fluanalysis/code/wrangling.html">
+ <span class="dropdown-text">Wrangling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="././fluanalysis/code/exploring.html">
+ <span class="dropdown-text">Exploring</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="././fluanalysis/code/fitting.html">
+ <span class="dropdown-text">Fitting</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
@@ -248,7 +267,10 @@ $ `No Opinion`  &lt;chr&gt; "1", "*", "1", "*", "1", "1", "2", "1", "1", "1", "*
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># making sure all data is class c(double, numeric)</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">No Opinion</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">No Opinion</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</code></pre>
+<pre><code>Warning: There was 1 warning in `dplyr::mutate()`.
+ℹ In argument: `No Opinion = as.numeric(`No Opinion`)`.
+Caused by warning:
+! NAs introduced by coercion</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># making sure the dat conversion worked</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(data1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -320,12 +342,20 @@ $ `No Opinion`  &lt;dbl&gt; 1, NA, 1, NA, 1, 1, 2, 1, 1, 1, NA, 1, 1, 2, 2, 2, 2
 <span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>                               <span class="at">y=</span><span class="dv">34</span>),<span class="at">fill=</span><span class="st">"#FFFFFF"</span>,<span class="at">color=</span><span class="st">"#666666"</span>,<span class="at">label.size=</span><span class="cn">NA</span>,<span class="at">hjust=</span><span class="dv">0</span>,</span>
 <span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fontface=</span><span class="st">"bold"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 row(s) containing missing values (geom_path).
-Removed 2 row(s) containing missing values (geom_path).
-Removed 2 row(s) containing missing values (geom_path).
-Removed 2 row(s) containing missing values (geom_path).
-Removed 2 row(s) containing missing values (geom_path).
-Removed 2 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values (`geom_line()`).
+Removed 2 rows containing missing values (`geom_line()`).
+Removed 2 rows containing missing values (`geom_line()`).
+Removed 2 rows containing missing values (`geom_line()`).
+Removed 2 rows containing missing values (`geom_line()`).
+Removed 2 rows containing missing values (`geom_line()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="visualization_exercise_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
