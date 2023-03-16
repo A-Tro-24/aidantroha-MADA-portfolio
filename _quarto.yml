@@ -22,7 +22,7 @@ website:
         menu:
           - text: "Wrangling"
             href: ./fluanalysis/code/wrangling.html
-          - text: "Exploring"
+          - text: "Exploration"
             href: ./fluanalysis/code/exploration.html
           - text: "Fitting"
             href: ./fluanalysis/code/fitting.html
