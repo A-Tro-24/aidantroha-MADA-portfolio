@@ -1,0 +1,127 @@
+---
+title: "Flu Analysis"
+editor: visual
+---
+
+```{r}
+library(tidymodels)
+library(tidyverse)
+```
+
+We will be using the data from the cleaned flu analysis data, so we will need to load the data from the `processed_data` folder. 
+```{r}
+dat <- readRDS(here::here("fluanalysis","data","processed_data","flu_processed"))
+```
+We'll then need to find a way to create a dummy data set, called the test data set, from the cleaned data. We will use this data to test the efficacy of the generated model. We will use the remaining data, the training data set, to fit the model.
+
+To attempt this, we will set a seed with `set.seed()` for randomization to ensure that these processes are reproducible. Further, we use `initial_split()` from the `rsample` package to generate a splitting rule for the `training` and `test` data sets.
+```{r}
+set.seed(4444444)
+data_split <- initial_split(dat,prop=7/10)
+training_data <- training(data_split)
+test_data <- testing(data_split)
+```
+
+We intend to use the `tidymodels` workflow to generate our logistic regression model. Within this workflow, we use `recipe()` and `worklfow()` to identify the relationships of interest.
+```{r}
+# Initialize the interactions we are interested in
+flu_logit_rec <- recipe(Nausea ~ ., data = training_data)
+# Initialize the logistic regression formula
+logit_mod <- logistic_reg() %>%
+             set_engine("glm")
+# Initialize the workflow
+flu_wflow1 <- 
+             workflow() %>%
+             add_model(logit_mod) %>%
+             add_recipe(flu_logit_rec)
+flu_wflow1
+```
+
+Now that we have generated the workflow, we can fit the model to the training and test data sets, respectively.
+```{r}
+training_fit <- flu_wflow1 %>%
+                fit(data = training_data)
+
+test_fit <- flu_wflow1 %>%
+            fit(data = test_data)
+```
+
+We now want to compare the estimates. To do this, we use `augment()`. 
+```{r}
+training_aug <- augment(training_fit, training_data)
+test_aug <- augment(test_fit, test_data)
+```
+
+If we want to assess how well the model makes predictions, we can evaluate this with an ROC curve. `roc_curev()` and `autoplot()` will prepare the plot for us to evaluate the model on the `training_data` and the `test_data`, separately.
+```{r}
+training_aug %>%
+      roc_curve(truth = Nausea, .pred_No) %>%
+      autoplot()
+```
+
+`roc_auc()` estimates the area under the ROC curve. An area close to 1 means a good prediction, while an area near 0.5 means the model is of poor predictive quality.
+```{r}
+training_aug %>%
+      roc_auc(truth = Nausea, .pred_No)
+```
+
+We repeat the same steps above for the `test_data`.
+```{r}
+test_aug %>%
+      roc_curve(truth = Nausea, .pred_No) %>%
+      autoplot()
+```
+
+
+```{r}
+test_aug %>%
+      roc_auc(truth = Nausea, .pred_No)
+```
+Overall, the model appears to predict the data fairly well since both the training and test data have an area under the curve >0.7.
+
+Part 2
+Let's see how a more restrictive model would act.
+
+Now, let's choose only 1 predictor instead of using all of them.
+```{r}
+flu_logit_rec2 <- recipe(Nausea ~ RunnyNose, data = training_data)
+
+flu_wflow2 <- 
+             workflow() %>%
+             add_model(logit_mod) %>%
+             add_recipe(flu_logit_rec2)
+
+training_fit2 <- flu_wflow2 %>%
+                fit(data = training_data)
+
+test_fit2 <- flu_wflow2 %>%
+            fit(data = test_data)
+
+training_aug2 <- augment(training_fit2, training_data)
+test_aug2 <- augment(test_fit2, test_data)
+```
+The ROC curve of the training data set:
+```{r}
+training_aug2 %>%
+      roc_curve(truth = Nausea, .pred_No) %>%
+      autoplot()
+```
+
+```{r}
+training_aug2 %>%
+      roc_auc(truth = Nausea, .pred_No)
+```
+The model is not a good fit of the data.
+
+The ROC curve of the test data set:
+```{r}
+test_aug2 %>%
+      roc_curve(truth = Nausea, .pred_No) %>%
+      autoplot()
+```
+
+```{r}
+test_aug2 %>%
+      roc_auc(truth = Nausea, .pred_No)
+```
+The model is not a good fit of the data.
