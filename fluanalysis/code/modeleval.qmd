@@ -8,13 +8,16 @@ library(tidymodels)
 library(tidyverse)
 ```
 
-We will be using the data from the cleaned flu analysis data, so we will need to load the data from the `processed_data` folder. 
+We will be using the data from the cleaned flu analysis data, so we will need to load the data from the `processed_data` folder.
+
 ```{r}
 dat <- readRDS(here::here("fluanalysis","data","processed_data","flu_processed"))
 ```
+
 We'll then need to find a way to create a dummy data set, called the test data set, from the cleaned data. We will use this data to test the efficacy of the generated model. We will use the remaining data, the training data set, to fit the model.
 
 To attempt this, we will set a seed with `set.seed()` for randomization to ensure that these processes are reproducible. Further, we use `initial_split()` from the `rsample` package to generate a splitting rule for the `training` and `test` data sets.
+
 ```{r}
 set.seed(4444444)
 data_split <- initial_split(dat,prop=7/10)
@@ -23,6 +26,7 @@ test_data <- testing(data_split)
 ```
 
 We intend to use the `tidymodels` workflow to generate our logistic regression model. Within this workflow, we use `recipe()` and `worklfow()` to identify the relationships of interest.
+
 ```{r}
 # Initialize the interactions we are interested in
 flu_logit_rec <- recipe(Nausea ~ ., data = training_data)
@@ -38,6 +42,7 @@ flu_wflow1
 ```
 
 Now that we have generated the workflow, we can fit the model to the training and test data sets, respectively.
+
 ```{r}
 training_fit <- flu_wflow1 %>%
                 fit(data = training_data)
@@ -46,13 +51,15 @@ test_fit <- flu_wflow1 %>%
             fit(data = test_data)
 ```
 
-We now want to compare the estimates. To do this, we use `augment()`. 
+We now want to compare the estimates. To do this, we use `augment()`.
+
 ```{r}
 training_aug <- augment(training_fit, training_data)
 test_aug <- augment(test_fit, test_data)
 ```
 
 If we want to assess how well the model makes predictions, we can evaluate this with an ROC curve. `roc_curev()` and `autoplot()` will prepare the plot for us to evaluate the model on the `training_data` and the `test_data`, separately.
+
 ```{r}
 training_aug %>%
       roc_curve(truth = Nausea, .pred_No) %>%
@@ -60,29 +67,31 @@ training_aug %>%
 ```
 
 `roc_auc()` estimates the area under the ROC curve. An area close to 1 means a good prediction, while an area near 0.5 means the model is of poor predictive quality.
+
 ```{r}
 training_aug %>%
       roc_auc(truth = Nausea, .pred_No)
 ```
 
 We repeat the same steps above for the `test_data`.
+
 ```{r}
 test_aug %>%
       roc_curve(truth = Nausea, .pred_No) %>%
       autoplot()
 ```
 
-
 ```{r}
 test_aug %>%
       roc_auc(truth = Nausea, .pred_No)
 ```
-Overall, the model appears to predict the data fairly well since both the training and test data have an area under the curve >0.7.
 
-Part 2
-Let's see how a more restrictive model would act.
+Overall, the model appears to predict the data fairly well since both the training and test data have an area under the curve \>0.7.
+
+Part 2 Let's see how a more restrictive model would act.
 
 Now, let's choose only 1 predictor instead of using all of them.
+
 ```{r}
 flu_logit_rec2 <- recipe(Nausea ~ RunnyNose, data = training_data)
 
@@ -100,7 +109,9 @@ test_fit2 <- flu_wflow2 %>%
 training_aug2 <- augment(training_fit2, training_data)
 test_aug2 <- augment(test_fit2, test_data)
 ```
+
 The ROC curve of the training data set:
+
 ```{r}
 training_aug2 %>%
       roc_curve(truth = Nausea, .pred_No) %>%
@@ -111,9 +122,11 @@ training_aug2 %>%
 training_aug2 %>%
       roc_auc(truth = Nausea, .pred_No)
 ```
+
 The model is not a good fit of the data.
 
 The ROC curve of the test data set:
+
 ```{r}
 test_aug2 %>%
       roc_curve(truth = Nausea, .pred_No) %>%
@@ -124,4 +137,87 @@ test_aug2 %>%
 test_aug2 %>%
       roc_auc(truth = Nausea, .pred_No)
 ```
+
 The model is not a good fit of the data.
+
+# This section added by Weifan Wu
+## Linear model for continuous outcome `BodyTemp`
+### Creating workflow and fitting model using all predictors
+```{r}
+# Creating recipe and set up dummy code for all categorical variables
+set.seed(123)
+temp_rec=recipe(BodyTemp~.,data=training_data)%>%
+  step_dummy(all_nominal())
+# Training linear regression model
+lm_mod=linear_reg()%>%
+  set_engine("lm")
+# Creating workflow
+temp_workflow=workflow()%>%
+  add_model(lm_mod)%>%
+  add_recipe(temp_rec)
+temp_workflow
+temp_fit=temp_workflow%>%
+  fit(data=training_data)
+# Checking the parameter estimates and arrange their respective p.values
+temp_fit%>%
+  extract_fit_parsnip()%>%
+  tidy()%>%
+  arrange(p.value)
+```
+
+### Use the trained workflow to predict both training and testing data
+
+```{r}
+# Predicting training dataand getting model metrics
+predict(temp_fit,training_data)
+temp_aug_train=augment(temp_fit,training_data)
+temp_aug_train%>%
+  metrics(truth = !!sym("BodyTemp"), estimate = .pred)
+# Predicting testing data and getting model metrics
+predict(temp_fit,test_data)
+temp_aug_test=augment(temp_fit,test_data)
+temp_aug_test%>%
+  metrics(truth = !!sym("BodyTemp"), estimate = .pred)
+```
+
+### Creating workflow and fitting model using the main predictor (`RunnyNose`)
+
+```{r}
+set.seed(234)
+temp_rec2=recipe(BodyTemp~RunnyNose,data=training_data)
+# Training linear regression model
+lm_mod=linear_reg()%>%
+  set_engine("lm")
+# Creating workflow
+temp_workflow2=workflow()%>%
+  add_model(lm_mod)%>%
+  add_recipe(temp_rec2)
+temp_workflow2
+temp_fit2=temp_workflow2%>%
+  fit(data=training_data)
+# Checking the parameter estimates and arrange their respective p.values
+temp_fit2%>%
+  extract_fit_parsnip()%>%
+  tidy()%>%
+  arrange(p.value)
+```
+
+### Use the trained workflow to predict both training and testing data
+
+```{r}
+# Predicting training data and getting model metrics
+predict(temp_fit2,training_data)
+temp_aug_train2=augment(temp_fit2,training_data)
+temp_aug_train2%>%
+  metrics(truth = !!sym("BodyTemp"), estimate = .pred)
+# Predicting testing data and getting model metrics
+predict(temp_fit2,test_data)
+temp_aug_test2=augment(temp_fit2,test_data)
+temp_aug_test2%>%
+  metrics(truth = !!sym("BodyTemp"), estimate = .pred)
+```
+
+#### Overall, the model built and trained based on all predictors has a higher RMSE  than that built and trained based on the main predictor `RunnyNose`. 
+
+```
+
