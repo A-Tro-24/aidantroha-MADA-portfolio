@@ -1,11 +1,13 @@
 ---
-title: "FluAnalysis"
+title: "Flu Analysis - Data Exploration"
 author: "Aidan Troha"
 editor: visual
 ---
+
 ```{r}
 library(tidyverse)
 ```
+
 # Data Exploration
 
 ## Outcomes of Interest
@@ -28,7 +30,8 @@ We can get an idea of what analyses we might want to do by first exploring the p
 
 Let's first take a look at how patients' body temperatures are distributed. We can do this by using `base r`'s `plot()`, specifying `BodyTemp` using `$`. I've introduced two vertical lines, one representing the mean (dark blue) and one representing the median (light blue). This was done by inserting a vertical `abline()` in conjunction with `mean()` and `median()`.
 
-We must also ensure that the data set we previously cleaned carries over to this segment of the analysis. 
+We must also ensure that the data set we previously cleaned carries over to this segment of the analysis.
+
 ```{r}
 fludat_clean <- here::here("fluanalysis","data","processed_data","flu_processed")
 flu_clean <- readRDS(fludat_clean)
@@ -145,6 +148,7 @@ with(flu_clean,table(CoughIntensity,Nausea)) %>%
 We see a similar trend in coughing intensity as with weakness level; with nausea, the higher the proportion of individuals who experienced moderate or severe coughing fits.
 
 ### Conclusions
+
 We may consider checking the relationships between the response variables and the following predictors:
 
 \~Chills/Sweats (binary, yes/no)\

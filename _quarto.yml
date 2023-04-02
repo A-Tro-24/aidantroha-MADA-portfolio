@@ -28,6 +28,8 @@ website:
             href: ./fluanalysis/code/fitting.html
           - text: "Model Evaluation"
             href: ./fluanalysis/code/modeleval.qmd
+          - text: "Machine Learning"
+            href: ./fluanalysis/code/machinelearning.qmd
 
     right:
       - icon: github 

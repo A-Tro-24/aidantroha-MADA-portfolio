@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.2.313">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Aidan Troha">
 
-<title>My Data Analysis Portfolio - FluAnalysis</title>
+<title>My Data Analysis Portfolio - Flu Analysis - Data Wrangling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -187,6 +187,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../.././fluanalysis/code/fitting.html">
  <span class="dropdown-text">Fitting</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../fluanalysis/code/modeleval.html">
+ <span class="dropdown-text">Model Evaluation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../fluanalysis/code/machinelearning.html">
+ <span class="dropdown-text">Machine Learning</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -212,7 +220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">FluAnalysis</h1>
+<h1 class="title">Flu Analysis - Data Wrangling</h1>
 </div>
 
 
@@ -238,10 +246,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.1     ✔ purrr   1.0.1
+✔ ggplot2 3.4.1     ✔ purrr   0.3.4
 ✔ tibble  3.1.8     ✔ dplyr   1.1.0
-✔ tidyr   1.3.0     ✔ stringr 1.5.0
-✔ readr   2.1.3     ✔ forcats 1.0.0
+✔ tidyr   1.2.1     ✔ stringr 1.4.1
+✔ readr   2.1.2     ✔ forcats 0.5.2
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
@@ -267,13 +275,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] FALSE</code></pre>
 </div>
 </div>
+<section id="module-11---pre-processing" class="level4">
+<h4 class="anchored" data-anchor-id="module-11---pre-processing">Module 11 - Pre-Processing</h4>
+<p>There are a number of variables that are redundant. If we want to generate a useful model, we need to remove these redundancies. We can do this with <code>select()</code> from <code>dplyr</code> as we have used in previously.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>flu_clean <span class="ot">&lt;-</span> flu_clean <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(WeaknessYN,CoughYN,CoughYN2,MyalgiaYN))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, we need to check to see if there are any variables in which there is an extremely uneven number of Yes/No responses such that there are &lt;50 responses for either Yes or No.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(flu_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze   
+ No :418           No :323         No :130      No :167         No :339  
+ Yes:312           Yes:407         Yes:600      Yes:563         Yes:391  
+                                                                         
+                                                                         
+                                                                         
+                                                                         
+ Fatigue   SubjectiveFever Headache      Weakness    CoughIntensity
+ No : 64   No :230         No :115   None    : 49   None    : 47   
+ Yes:666   Yes:500         Yes:615   Mild    :223   Mild    :154   
+                                     Moderate:338   Moderate:357   
+                                     Severe  :120   Severe  :172   
+                                                                   
+                                                                   
+     Myalgia    RunnyNose AbPain    ChestPain Diarrhea  EyePn     Insomnia 
+ None    : 79   No :211   No :639   No :497   No :631   No :617   No :315  
+ Mild    :213   Yes:519   Yes: 91   Yes:233   Yes: 99   Yes:113   Yes:415  
+ Moderate:325                                                              
+ Severe  :113                                                              
+                                                                           
+                                                                           
+ ItchyEye  Nausea    EarPn     Hearing   Pharyngitis Breathless ToothPn  
+ No :551   No :475   No :568   No :700   No :119     No :436    No :565  
+ Yes:179   Yes:255   Yes:162   Yes: 30   Yes:611     Yes:294    Yes:165  
+                                                                         
+                                                                         
+                                                                         
+                                                                         
+ Vision    Vomit     Wheeze       BodyTemp     
+ No :711   No :652   No :510   Min.   : 97.20  
+ Yes: 19   Yes: 78   Yes:220   1st Qu.: 98.20  
+                               Median : 98.50  
+                               Mean   : 98.94  
+                               3rd Qu.: 99.30  
+                               Max.   :103.10  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>flu_clean <span class="ot">&lt;-</span> flu_clean <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(Vision,Hearing))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>According to the table above, the <code>Vision</code> and <code>Hearing</code> variables meet this criteria, so we will remove those variables.</p>
 <p>Again, we use the <code>here()</code> function to clearly indicate where the <code>RDS</code> file should be saved. We use <code>saveRDS()</code> to save the data set as the proper file type.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fludat_clean <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"fluanalysis"</span>,<span class="st">"data"</span>,<span class="st">"processed_data"</span>,<span class="st">"flu_processed"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(flu_clean,<span class="at">file=</span>fludat_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fludat_clean <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"fluanalysis"</span>,<span class="st">"data"</span>,<span class="st">"processed_data"</span>,<span class="st">"flu_processed"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(flu_clean,<span class="at">file=</span>fludat_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

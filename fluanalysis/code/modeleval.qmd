@@ -1,5 +1,5 @@
 ---
-title: "Flu Analysis"
+title: "Flu Analysis - Model Analysis & Evaluation"
 editor: visual
 ---
 
@@ -141,8 +141,11 @@ test_aug2 %>%
 The model is not a good fit of the data.
 
 # This section added by Weifan Wu
+
 ## Linear model for continuous outcome `BodyTemp`
+
 ### Creating workflow and fitting model using all predictors
+
 ```{r}
 # Creating recipe and set up dummy code for all categorical variables
 set.seed(123)
@@ -217,7 +220,6 @@ temp_aug_test2%>%
   metrics(truth = !!sym("BodyTemp"), estimate = .pred)
 ```
 
-#### Overall, the model built and trained based on all predictors has a higher RMSE  than that built and trained based on the main predictor `RunnyNose`. 
+#### Overall, the model built and trained based on all predictors has a higher RMSE than that built and trained based on the main predictor `RunnyNose`.
 
-```
-
+\`\`\`

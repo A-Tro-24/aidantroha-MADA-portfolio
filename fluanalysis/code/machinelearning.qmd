@@ -1,0 +1,175 @@
+---
+title: "Flu Analysis - Machine Learning"
+author: "Aidan Troha"
+editor: visual
+---
+
+```{r}
+library(tidymodels)
+set.seed(123)
+
+dat <- readRDS(here::here("fluanalysis","data","processed_data","flu_processed"))
+
+data_split <- rsample::initial_split(dat,prop=7/10,strata=BodyTemp)
+training_data <- rsample::training(data_split)
+folds <- rsample::vfold_cv(training_data,v=5,repeats=5,strata=BodyTemp)
+test_data <- rsample::testing(data_split)
+
+Btemp_rec <- recipes::recipe(BodyTemp ~ ., data = training_data) %>%
+             recipes::step_dummy(all_nominal())
+
+line_mod <- linear_reg() %>%
+            set_engine("lm")
+
+Btemp_wf <- workflow() %>%
+            add_recipe(Btemp_rec)
+Btemp_wf_null <- Btemp_wf %>%
+                 add_model(line_mod)
+
+null_mod <- null_model() %>%
+            set_engine("parsnip") %>%
+            set_mode("regression")
+
+null_resamp <- fit_resamples(Btemp_wf_null, folds, metrics = metric_set(rmse),
+                            control = control_resamples(save_pred = TRUE))
+null_resamp %>% collect_metrics()
+```
+
+## Tree Model
+```{r warning=FALSE}
+tree_mod <- parsnip::decision_tree(cost_complexity = tune(), tree_depth = tune()) %>%
+            parsnip::set_engine("rpart") %>%
+            parsnip::set_mode("regression")
+
+tree_grid <- grid_regular(cost_complexity(),
+                          tree_depth(),
+                          levels = 5)
+
+tree_wf <- Btemp_wf %>%
+           add_model(tree_mod)
+
+tree_tune_res <- tree_wf %>%
+                 tune_grid(resample=folds,
+                           grid = tree_grid)
+tree_tune_res %>% autoplot()
+
+tree_best <- tree_tune_res %>%
+             select_best()
+
+final_tree <- tree_wf %>%
+              finalize_workflow(tree_best)
+
+final_tree_fit <- final_tree %>%
+                  fit(training_data) %>%
+                  augment(training_data)
+
+ggplot(aes(BodyTemp,.pred),data=final_tree_fit) +
+      geom_jitter()
+
+final_tree_fit %>%
+      mutate(res = BodyTemp - .pred) %>%
+      ggplot(aes(.pred,res)) +
+      geom_jitter()
+```
+
+
+## LASSO Model
+```{r}
+lasso_mod <- linear_reg(penalty = tune(), mixture = 1) %>%
+             set_engine("glmnet")
+
+lasso_grid <- tibble::tibble(penalty=10^seq(-4,-1,length.out=30))
+
+lasso_wf <- Btemp_wf %>%
+           add_model(lasso_mod)
+
+lasso_tune_res <- lasso_wf %>%
+                 tune_grid(resample=folds,
+                           grid = lasso_grid,
+                           control = control_grid(save_pred = TRUE),
+                           metrics = metric_set(rmse))
+lasso_tune_res %>% autoplot()
+
+lasso_best <- lasso_tune_res %>%
+             select_best()
+
+final_lasso <- lasso_wf %>%
+              finalize_workflow(lasso_best)
+final_lasso_fit <- final_lasso %>%
+                  fit(training_data) %>%
+                  augment(training_data)
+
+ggplot(aes(BodyTemp,.pred),data=final_lasso_fit) +
+      geom_jitter()
+
+final_lasso_fit %>%
+      mutate(res = BodyTemp - .pred) %>%
+      ggplot(aes(.pred,res)) +
+      geom_jitter()
+```
+
+
+## Random Forest
+```{r}
+cores <- parallel::detectCores()
+
+randfor_mod <- parsnip::rand_forest(mtry = tune(), min_n = tune(), trees = 1000) %>%
+               parsnip::set_engine("ranger",num.threads = cores) %>%
+               parsnip::set_mode("regression")
+
+
+randfor_wf <- Btemp_wf %>%
+           add_model(randfor_mod)
+
+randfor_tune_res <- tree_wf %>%
+                 tune_grid(resample=folds,
+                           grid = 25,
+                           control = control_grid(save_pred = TRUE),
+                           metrics = metric_set(rmse))
+randfor_tune_res %>% autoplot()
+
+forest_best <- randfor_tune_res %>%
+             select_best()
+
+final_forest <- randfor_wf %>%
+              finalize_workflow(forest_best)
+final_forest_fit <- final_forest %>%
+                  fit(training_data) %>%
+                  augment(training_data)
+
+ggplot(aes(BodyTemp,.pred),data=final_forest_fit) +
+      geom_jitter()
+
+final_tree_fit %>%
+      mutate(res = BodyTemp - .pred) %>%
+      ggplot(aes(.pred,res)) +
+      geom_jitter()
+```
+
+
+## Choosing a Model
+```{r}
+rmse <- data.frame(null = c(1.178558),
+                   tree = c(sqrt(mean((final_tree_fit$BodyTemp - final_tree_fit$.pred)^2))),
+                   lasso = c(sqrt(mean((final_lasso_fit$BodyTemp - final_lasso_fit$.pred)^2))),
+                   forest = c(sqrt(mean((final_forest_fit$BodyTemp - final_forest_fit$.pred)^2))))
+rmse
+```
+LASSO minimizes the RMSE among all models provided above. 
+```{r}
+bestfit <- final_lasso %>%
+           last_fit(data_split) 
+bestfit %>%
+          collect_metrics()
+
+best_overall_fit <- final_lasso %>%
+                    fit(test_data) %>%
+                    augment(test_data)
+ggplot(aes(BodyTemp,.pred),data=best_overall_fit) +
+      geom_jitter()
+
+best_overall_fit %>%
+      mutate(res = BodyTemp - .pred) %>%
+      ggplot(aes(.pred,res)) +
+      geom_jitter()
+```

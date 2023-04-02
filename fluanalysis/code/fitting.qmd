@@ -1,27 +1,37 @@
 ---
-title: "FluAnalysis"
+title: "Flu Analysis - Model Fitting"
 author: "Aidan Troha"
 editor: visual
 ---
+
 We begin by using the library function to be able to use the `tidymodels` packages
+
 ```{r}
 library(tidymodels)
 ```
-We must also ensure that the data set we previously cleaned carries over to this segment of the analysis. 
+
+We must also ensure that the data set we previously cleaned carries over to this segment of the analysis.
+
 ```{r}
 fludat_clean <- here::here("fluanalysis","data","processed_data","flu_processed")
 flu_clean <- readRDS(fludat_clean)
 ```
+
 We can create the general models we will use by setting the engine with `set_engine()` for linear and logistic regression, repsectively.
+
 ```{r}
 linear <- linear_reg() %>%
               set_engine("lm")
 logit <- logistic_reg() %>%
               set_engine("glm")
 ```
+
 ## Linear Regression
+
 ### Restrictive Model
+
 We first fit the model predicting temperature from having a runny nose:
+
 ```{r}
 lm_fit1 <- linear %>%
             fit(BodyTemp~RunnyNose,data=flu_clean)
@@ -35,9 +45,9 @@ broom::tidy(lm_fit1) %>%
                                       colour = "black", 
                                       linetype = 2))
 ```
-We see that the regression coefficient relating runny nose status and body temperature is about -0.3.
-### Other Models
-No we will see how this compares to a less restrictive model by using more predictors:
+
+We see that the regression coefficient relating runny nose status and body temperature is about -0.3. \### Other Models No we will see how this compares to a less restrictive model by using more predictors:
+
 ```{r}
 lm_fit2 <- linear %>%
             fit(BodyTemp~RunnyNose * ChillsSweats * Fatigue * Weakness,
@@ -48,9 +58,11 @@ broom::tidy(lm_fit2) %>%
                                       colour = "black", 
                                       linetype = 2))
 ```
+
 Using 3 more predictors for body temperature, we get 32 different coefficients relating body temperature to each prediction and their associated interactions. We can see that this model may be too complex for interpretation.
 
 Instead, we may want to look at how 2 or 3 predictors could impact the results:
+
 ```{r}
 lm_fit2 <- linear %>%
             fit(BodyTemp~RunnyNose * Weakness,
@@ -61,11 +73,15 @@ broom::tidy(lm_fit2) %>%
                                       colour = "black", 
                                       linetype = 2))
 ```
+
 This model is easier to use and make predictions from but is still less restrictive than the original model.
 
 ## Logistic Regression
+
 ### Restrictive Model
+
 We first fit the model predicting nausea from having a runny nose:
+
 ```{r}
 log_fit1 <- logit %>%
             fit(Nausea~RunnyNose, data=flu_clean)
@@ -79,10 +95,13 @@ broom::tidy(log_fit1) %>%
                                       colour = "black", 
                                       linetype = 2))
 ```
+
 We see that the regression coefficient relating runny nose status and nausea is depicted above with it's 95% CI. The coefficient estimate is about 0.05.
 
 ### Other Models
+
 Now let's fit a less restrictive model:
+
 ```{r}
 log_fit2 <- logit %>%
             fit(Nausea~RunnyNose * ChillsSweats * Fatigue * Weakness, data=flu_clean)
@@ -92,9 +111,11 @@ broom::tidy(log_fit2) %>%
                                       colour = "black", 
                                       linetype = 2))
 ```
+
 We see that, again, the model is too crowded for much meaningful interpretation. We do notice the much wider ranges of values obtained by the model. Likely, the effect size is so diluted by the vast number of predictors used in the model. If more predictors are introduced, the ranges of values will also increase exponentially larger.
 
 Instead, let's try looking at something a little simpler but still less restrictive than the original model:
+
 ```{r}
 log_fit2 <- logit %>%
             fit(Nausea~RunnyNose * Weakness, data=flu_clean)
@@ -104,4 +125,5 @@ broom::tidy(log_fit2) %>%
                                       colour = "black", 
                                       linetype = 2))
 ```
+
 Here, we can see relative effect that each predictor has on the outcome. Simply, we see that severe weakness is strongly associated with increased nausea.

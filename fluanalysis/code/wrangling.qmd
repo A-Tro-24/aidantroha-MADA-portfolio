@@ -1,5 +1,5 @@
 ---
-title: "FluAnalysis"
+title: "Flu Analysis - Data Wrangling"
 author: "Aidan Troha"
 editor: visual
 ---
@@ -21,6 +21,20 @@ flu_clean <- flu_raw %>%
                 drop_na()
 anyNA(flu_clean)
 ```
+#### Module 11 - Pre-Processing
+There are a number of variables that are redundant. If we want to generate a useful model, we need to remove these redundancies. We can do this with `select()` from `dplyr` as we have used in previously.
+```{r}
+flu_clean <- flu_clean %>%
+             select(!c(WeaknessYN,CoughYN,CoughYN2,MyalgiaYN))
+```
+Now, we need to check to see if there are any variables in which there is an extremely uneven number of Yes/No responses such that there are <50 responses for either Yes or No.
+```{r}
+summary(flu_clean)
+flu_clean <- flu_clean %>%
+             select(!c(Vision,Hearing))
+```
+According to the table above, the `Vision` and `Hearing` variables meet this criteria, so we will remove those variables.
+
 Again, we use the `here()` function to clearly indicate where the `RDS` file should be saved. We use `saveRDS()` to save the data set as the proper file type.
 ```{r}
 fludat_clean <- here::here("fluanalysis","data","processed_data","flu_processed")
