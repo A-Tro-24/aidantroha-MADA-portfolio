@@ -36,6 +36,7 @@ null_resamp %>% collect_metrics()
 ```
 
 ## Tree Model
+
 ```{r warning=FALSE}
 tree_mod <- parsnip::decision_tree(cost_complexity = tune(), tree_depth = tune()) %>%
             parsnip::set_engine("rpart") %>%
@@ -72,8 +73,8 @@ final_tree_fit %>%
       geom_jitter()
 ```
 
-
 ## LASSO Model
+
 ```{r}
 lasso_mod <- linear_reg(penalty = tune(), mixture = 1) %>%
              set_engine("glmnet")
@@ -108,8 +109,8 @@ final_lasso_fit %>%
       geom_jitter()
 ```
 
-
 ## Random Forest
+
 ```{r}
 cores <- parallel::detectCores()
 
@@ -146,8 +147,8 @@ final_tree_fit %>%
       geom_jitter()
 ```
 
-
 ## Choosing a Model
+
 ```{r}
 rmse <- data.frame(null = c(1.178558),
                    tree = c(sqrt(mean((final_tree_fit$BodyTemp - final_tree_fit$.pred)^2))),
@@ -155,7 +156,9 @@ rmse <- data.frame(null = c(1.178558),
                    forest = c(sqrt(mean((final_forest_fit$BodyTemp - final_forest_fit$.pred)^2))))
 rmse
 ```
-LASSO minimizes the RMSE among all models provided above. 
+
+LASSO minimizes the RMSE among all models provided above.
+
 ```{r}
 bestfit <- final_lasso %>%
            last_fit(data_split) 

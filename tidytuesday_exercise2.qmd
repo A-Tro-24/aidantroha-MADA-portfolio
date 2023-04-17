@@ -5,4 +5,24 @@ output:
     toc: FALSE
 ---
 
-To be filled 
+##Packages Used    
+
+```{r}
+library(tidyverse)
+```
+
+##Importing the Data    
+
+```{r}
+ttdata <- tidytuesdayR::tt_load('2023-04-11')
+eggProduction <- ttdata$`egg-production`
+cagefreePerc <- ttdata$`cage-free-percentages`
+```
+
+##Observing the Data
+
+```{r}
+str(eggProduction); str(cagefreePerc)
+```
+
+According to the data frames produced above, we see that the data involves egg production in the US over time and 
